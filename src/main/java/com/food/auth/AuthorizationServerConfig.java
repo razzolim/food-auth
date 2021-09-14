@@ -81,7 +81,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-		jwtAccessTokenConverter.setSigningKey("food");
+		jwtAccessTokenConverter.setSigningKey("jd29083jd823jd209dj20d0930j98qwh4q8wj398qj3");
 		return jwtAccessTokenConverter;
 	}
 	
