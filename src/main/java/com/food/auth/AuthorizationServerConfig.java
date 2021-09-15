@@ -32,6 +32,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private UserDetailsService userDetailService;
 	
+	@Autowired
+	private JwtKeyStoreProperties jwtKeyStoreProperties; 
+	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {		
 		clients
@@ -82,18 +85,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Bean
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
-		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-		
-		var jksResource = new ClassPathResource("keystores/food.jks");
-		var keyStorePass = "123456";
-		var keyPairAlias = "food";
-		
-		var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
-		var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
-		
-		jwtAccessTokenConverter.setKeyPair(keyPair);
-		
-		return jwtAccessTokenConverter;
+	    var jwtAccessTokenConverter = new JwtAccessTokenConverter();
+	    
+	    var jksResource = new ClassPathResource(jwtKeyStoreProperties.getPath());
+	    var keyStorePass = jwtKeyStoreProperties.getPassword();
+	    var keyPairAlias = jwtKeyStoreProperties.getKeypairAlias();
+	    
+	    var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
+	    var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
+	    
+	    jwtAccessTokenConverter.setKeyPair(keyPair);
+	    
+	    return jwtAccessTokenConverter;
 	}
 	
 	private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
