@@ -1,4 +1,4 @@
-package com.food.auth;
+package com.food.auth.core;
 
 import java.util.Collections;
 
